@@ -4,13 +4,13 @@ LIBNAME := libittnotify.a
 
 INCLUDE += -I ../../../include
 
-CFLAGS += $(INCLUDE) -fPIC -Wno-strict-prototypes
+CFLAGS += $(INCLUDE) -fPIC -Wno-strict-prototypes -frandom-seed=1
 
 .PHONY: all
 all: $(LIBNAME)
 
 $(LIBNAME): $(OBJ)
-	$(AR) rcs $@ $^
+	$(AR) rcsD $@ $^
 
 .PHONY: clean
 clean:

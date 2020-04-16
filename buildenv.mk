@@ -66,6 +66,8 @@ NIPD := .nipd
 NIPRODT := .niprod
 CC ?= gcc
 
+ARFLAGS += D
+
 # clean the content of 'INCLUDE' - this variable will be set by vcvars32.bat
 # thus it will cause build error when this variable is used by our Makefile,
 # when compiling the code under Cygwin tainted by MSVC environment settings.
@@ -101,7 +103,10 @@ ifeq ($(BUILD_REF_LE), 1)
     COMMON_FLAGS += -DREF_LE
 endif
 
-COMMON_FLAGS += -ffunction-sections -fdata-sections
+# Note that CXXFLAGS and CFLAGS are also used when linking shared objects.
+COMMON_FLAGS += -ffunction-sections -fdata-sections \
+        $(eval CXXSEED=$(patsubst %,-frandom-seed=1,$(filter %.c %.cpp %.cc %.S,$<))) \
+        $(CXXSEED)
 
 # turn on compiler warnings as much as possible
 COMMON_FLAGS += -Wall -Wextra -Winit-self -Wpointer-arith -Wreturn-type \

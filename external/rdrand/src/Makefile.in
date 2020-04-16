@@ -7,7 +7,7 @@ AR=ar
 TEST_OBJ=main.o
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) -frandom-seed=1 -c $<
 
 all: bin lib 
 
@@ -16,7 +16,7 @@ bin: test
 lib: librdrand.a
 
 librdrand.a: rdrand.o
-	$(AR) rcs $@ $?
+	$(AR) rcsD $@ $?
 
 test: $(TEST_OBJ) librdrand.a
 	$(CC) $(CFLAGS) -o $@ $(TEST_OBJ) -L. -lrdrand
